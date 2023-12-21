@@ -1,0 +1,14 @@
+* {
+    font-size: 30px;
+}
+
+body {
+    background-color: rgb(255, 255, 255);
+}
+
+canvas {
+    background-color: white;
+    border: 3px solid black;
+    width: 800px;
+    height: 800px;
+}
