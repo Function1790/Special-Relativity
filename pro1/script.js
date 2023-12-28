@@ -14,8 +14,8 @@ const HTML = {
 const LightSpeed = 30
 const data = {
     imgSize: 200,
-    movementValue: 0.1,
-    Bvel0: 0.6 * LightSpeed,
+    movementValue: 0.03,
+    Bvel0: 0.8 * LightSpeed,
     recordSize: 30
 }
 
@@ -125,17 +125,11 @@ function eventListener() {
     var delta_x = renderList[1].pos.x//getShrinkedLength(focusedPerson, renderList[1].pos.x)
     var standard_x = getShrinkedLength(focusedPerson, 300)
     //delta_x > LightSpeed * 10
-    /*if (delta_x >= data.Bvel0 * standard_x && renderList[1].vel.x > -data.Bvel0) {
+    if (delta_x >= data.Bvel0 * standard_x && renderList[1].vel.x > -data.Bvel0) {
         renderList[1].vel.x -= 81//Math.abs(renderList[1].vel.x)
     }
     if (renderList[1].vel.x < -data.Bvel0) {
         renderList[1].vel.x = -data.Bvel0
-    }*/
-    if (absoluteTime >= 200) {
-        renderList[1].vel.x = -Math.abs(renderList[1].vel.x)
-    }
-    if (renderList[0].pos.x >= renderList[1].pos.x) {
-        isPlaying = false
     }
     if (delta_x <= 0) {
         isPlaying = false
@@ -223,7 +217,7 @@ function render() {
     ctx.strokeRect(pos[0], pos[1], data.imgSize, data.imgSize)
 
     countTime()
-    eventListener()
+    //eventListener()
     requestAnimationFrame(render)
 }
 render()
