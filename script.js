@@ -16,7 +16,7 @@ const data = {
     imgSize: 200,
     movementValue: 0.1,
     Bvel0: 0.6 * LightSpeed,
-    recordSize: 30
+    recordSize: 50
 }
 
 const print = (text) => console.log(text)
@@ -198,11 +198,11 @@ function render() {
         ctx2.closePath()
     }
 
-    if (Math.floor(focusedPerson.time) % 50 == 0) {
+    if (Math.floor(focusedPerson.time) % 100 == 0) {
         ctx2.beginPath()
-        ctx2.fillStyle = 'rgba(255,155,0, 1)'
-        ctx2.fillRect(posA[0] - data.recordSize / 2, posA[1] - data.recordSize / 2, data.recordSize, data.recordSize)
-        ctx2.fillStyle = 'rgba(55,155,255, 1)'
+        ctx2.fillStyle = 'rgba(255,155,0, 0.8)'
+        ctx2.fillRect(posA[0], posA[1] - data.recordSize / 2, data.recordSize + 10, data.recordSize + 10)
+        ctx2.fillStyle = 'rgba(55,155,255, 0.8)'
         ctx2.fillRect(renderList[0].pos.x / LightSpeed,
             1500 - focusedPerson.time * timeIncline - data.recordSize / 2, data.recordSize, data.recordSize)
         ctx2.closePath()
