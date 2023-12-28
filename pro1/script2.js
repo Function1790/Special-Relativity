@@ -13,10 +13,10 @@ const HTML = {
 
 const LightSpeed = 30
 const data = {
-    imgSize: 200,
-    movementValue: 0.01,
-    Bvel0: 0.6 * LightSpeed,
-    recordSize: 50
+    imgSize: 100,
+    movementValue: 0.005,
+    Bvel0: 0.8 * LightSpeed,
+    recordSize: 30
 }
 
 const print = (text) => console.log(text)
@@ -49,15 +49,14 @@ function getShrinkedLength(target, length) {
 //t = γ*t0
 function countTime() {
     absoluteTime += 1 / getLorentzBetween(focusedPerson, Space)
-    HTML['absoluteTime'].innerText = `t=${(absoluteTime).toFixed(4)}`
+    HTML['absoluteTime'].innerText = `t=${(absoluteTime).toFixed(2)}`
     for (var i in renderList) {
         renderList[i].time += 1 / getLorentzBetween(focusedPerson, renderList[i])
 
         //var _time = renderList[i].time.toFixed(4)
         var _time = `${Math.floor(renderList[i].time / 10)}년`
-        HTML['absoluteTime'].innerText += ` ${"AB"[i]}=${_time}`
+        HTML['absoluteTime'].innerText += ` ${"ABCDEFG"[i]}=${_time}`
     }
-    HTML['absoluteTime'].innerText += ` Bv=${(renderList[1].vel.x).toFixed(3)}`
 }
 
 function Focus(index) {
@@ -115,7 +114,7 @@ class Person {
         //var pos = [700, mid[1] + this.pos.y]
         ctx.beginPath()
         ctx.font = "80px serif"
-        ctx.fillText("AB"[this.index], pos[0] - 100, pos[1] + 100, 100)
+        ctx.fillText("ABCDEFG"[this.index], pos[0] - 100, pos[1] + 100, 100)
         ctx.drawImage(imgObjects[this.imgIndex], pos[0], pos[1], data.imgSize, data.imgSize);
         //ctx.strokeRect(mid[0] + this.pos.x, mid[1] + this.pos.y, data.imgSize, data.imgSize)
         ctx.closePath()
@@ -132,16 +131,6 @@ function eventListener() {
     if (renderList[1].vel.x < -data.Bvel0) {
         renderList[1].vel.x = -data.Bvel0
     }
-    /*if (absoluteTime >= 200) {
-        //renderList[1].vel.x = -Math.abs(renderList[1].vel.x)
-        renderList[1].vel.x -= 1
-        if (renderList[1].vel.x < -data.Bvel0) {
-            renderList[1].vel.x = -data.Bvel0
-        }
-    }
-    if (renderList[0].pos.x >= renderList[1].pos.x) {
-        isPlaying = false
-    }*/
     if (delta_x <= 0) {
         isPlaying = false
     }
@@ -167,9 +156,13 @@ function drawLorentzAxis(posA) {
 
 //[-----------------<Main>-----------------]
 const renderList = [
-    new Person([0, 200], [0, 0], 0),
-    new Person([0, 600], [data.Bvel0, 0], 1),
+    new Person([0, 0], [0, 0], 0),
+    new Person([0, 100], [LightSpeed*0.6, 0], 1),
+    new Person([0, 200], [LightSpeed*0.8, 0], 2),
+    new Person([0, 300], [LightSpeed*0.9, 0], 3),
+    new Person([0, 400], [LightSpeed*0.99, 0], 4),
 ]
+
 
 var focusedIndex = -1
 var focusedPerson = new Person([400, 400], [0, 0])
@@ -203,11 +196,11 @@ function render() {
         ctx2.closePath()
     }
 
-    if (Math.floor(focusedPerson.time) % 100 == 0) {
+    if (Math.floor(focusedPerson.time) % 50 == 0) {
         ctx2.beginPath()
-        ctx2.fillStyle = 'rgba(255,155,0, 0.8)'
-        ctx2.fillRect(posA[0], posA[1] - data.recordSize / 2, data.recordSize + 10, data.recordSize + 10)
-        ctx2.fillStyle = 'rgba(55,155,255, 0.8)'
+        ctx2.fillStyle = 'rgba(255,155,0, 1)'
+        ctx2.fillRect(posA[0] - data.recordSize / 2, posA[1] - data.recordSize / 2, data.recordSize, data.recordSize)
+        ctx2.fillStyle = 'rgba(55,155,255, 1)'
         ctx2.fillRect(renderList[0].pos.x / LightSpeed,
             1500 - focusedPerson.time * timeIncline - data.recordSize / 2, data.recordSize, data.recordSize)
         ctx2.closePath()
@@ -228,7 +221,7 @@ function render() {
     ctx.strokeRect(pos[0], pos[1], data.imgSize, data.imgSize)
 
     countTime()
-    eventListener()
+    //eventListener()
     requestAnimationFrame(render)
 }
 render()
